@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title> INPUT DATA </title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body></body>
+  <div class="container">
+    <div class="title"style="text-align: center;">INPUT DATA</div>
+    <div class="content">
+      <a href="gsheets-api-master/index.html" target="_blank">LIHAT DATA</a>
+     <form name="#">
+        <div id="form_alerts"></div>
+        <div class="user-details">
+          <div class="input-box">
+             <label for="LATTITUDE" class="form-label">LATTITUDE</label>
+              <input type="text" id="LATTITUDE" name="LATTITUDE" class="form-control" placeholder="Masukan LATTITUDE" required>
+          </div>
+          <div class="input-box">
+          <label for="LONGITUDE" class="form-label">LONGITUDE</label>
+              <input type="text" id="LONGITUDE" name="LONGITUDE" class="form-control" placeholder="Masukan nilai LONGITUDE" required>
+          </div>
+          <label for="JARAK" class="form-label">JARAK</label>
+          <input type="number" id="JARAK" name="JARAK" class="form-control" placeholder="Masukan nilai JARAK" required>
+      </div>
+          <!-- <div class="input-box">
+            <label for="UNIT" class="form-label">UNIT</label>
+              <select type="text" id="UNIT" name="UNIT" class="form-control" placeholder="Pilih jenis UNIT " required>
+                <option>--Pilih UNIT--</option>
+                <option>buah</option>
+                <option>pcs</option>
+              </select>
+          </div> -->
+        </div>
+        <div class="button" style="width: 100%">
+            <button
+              type="submit"
+              onclick="UploadFile();"
+              class="btn btn-primary btn-kirim"
+            >
+              Kirim
+            </button>
+            <button
+              class="btn btn-primary btn-loading d-none"
+              type="button"
+              disabled
+            >
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Loading...
+            </button>
+          </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxVdLdItWSaDb82nr6qxezDz5yl3pqVrj1rNtgpAeyPgcuSDteB2hqFpo4T1i8fIJWl4w/exec'
+        const form = document.forms['#']
+        
+    const btnKirim = document.querySelector(".btn-kirim");
+      const btnLoading = document.querySelector(".btn-loading");
+      const myAlert = document.querySelector(".my-alert");
+
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response =>{
+            btnLoading.classList.toggle("d-none");
+            btnKirim.classList.toggle("d-none");
+            myAlert.classList.toggle("d-none");
+                //  $("#form_alerts").html("<div class='alert alert-success'>Data berhasil dikirim.</div>")
+                $("#form_alerts").html("<div class='alert alert-danger'>Data gagal terkirim!.</div>")
+                })
+            .catch(error =>  $("#form_alerts").html("<div class='alert alert-success'>Data berhasil dikirim."))
+            
+        // ketika tombol diklik
+        // tampilkan tombol loading hilangkan tombol kirim
+            btnLoading.classList.toggle("d-none");
+            btnKirim.classList.toggle("d-none");
+            fetch(scriptURL, { method: "POST", body: new UploadFile() })
+            // .then((response) => {
+            // // btnLoading.classList.toggle("d-none");
+            // // btnKirim.classList.toggle("d-none");
+            // // myAlert.classList.toggle("d-none");
+           
+            // console.log("Success!", response); })
+            form.reset();
+        })
+
+        
+    </script>
+
+</body>
+</html>
